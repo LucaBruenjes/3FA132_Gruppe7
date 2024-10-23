@@ -1,0 +1,19 @@
+package org.example;
+
+//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
+// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+public class Main {
+    public static void main(String[] args) {
+        Properties properties = new Properties();
+        try (InputStream input = new FileInputStream("src/main/resources/database.properties")) {
+            properties.load(input);
+            DatabaseConnection dbConnection = new DatabaseConnection();
+            dbConnection.openConnection(properties);
+            dbConnection.createAllTables();
+            dbConnection.closeConnection();
+            System.out.println("Datenbanktabellen erfolgreich erstellt.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
