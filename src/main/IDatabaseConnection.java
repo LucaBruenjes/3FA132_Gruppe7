@@ -6,11 +6,16 @@ import java.util.Properties;
 public class DatabaseConnection implements IDatabaseConnection {
     private Connection connection;
 
+
+
     @Override
     public IDatabaseConnection openConnection(Properties properties) throws SQLException {
-        String url = properties.getProperty("user.db.url");
-        String user = properties.getProperty("user.db.user");
-        String password = properties.getProperty("user.db.pw");
+
+        String localUsername = System.getProperty("user.name").tolowerCase():
+
+        String url = "jdbc:mariadb://" + properties.getProperty("JulianKrütten.db.url");
+        String user = properties.getProperty("JulianKrütten.db.user");
+        String password = properties.getProperty("Julian.db.pw");
         connection = DriverManager.getConnection(url, user, password);
         return this;
     }

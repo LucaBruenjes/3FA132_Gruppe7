@@ -1,0 +1,8 @@
+JulianKrütten.db.url = localhost:3306/hausverwaltung_db
+JulianKrütten.db.user = julian_testing
+JulianKrütten.db.pw = julian_passwort
+
+#ToDo @Luca Daten reinschreiben
+
+Interfaces wurden umbenannt müssen orginal sein
+packist nicht der hit age org example
