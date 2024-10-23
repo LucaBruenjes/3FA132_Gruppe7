@@ -1,6 +1,4 @@
-package org.example;
-
-import java.util.UUID;
+import mport java.util.UUID;
 
 public interface IId {
 
