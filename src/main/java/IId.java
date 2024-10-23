@@ -1,4 +1,4 @@
-import mport java.util.UUID;
+import java.util.UUID;
 
 public interface IId {
 
