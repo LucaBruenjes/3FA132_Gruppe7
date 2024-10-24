@@ -2,7 +2,9 @@ JulianKrütten.db.url = localhost:3306/hausverwaltung_db
 JulianKrütten.db.user = julian_testing
 JulianKrütten.db.pw = julian_passwort
 
-#ToDo @Luca Daten reinschreiben
+user.db.url=jdbc:mariadb://localhost:3306/hausverwaltung_db
+user.db.user=root
+user.db.pw=JuLu
 
 Interfaces wurden umbenannt müssen orginal sein
 packist nicht der hit age org example
