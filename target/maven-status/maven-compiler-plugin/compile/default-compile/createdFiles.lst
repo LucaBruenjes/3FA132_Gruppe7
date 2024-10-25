@@ -1,0 +1,8 @@
+IReading.class
+Main.class
+DatabaseConnection.class
+IId.class
+IReading$KindOfMeter.class
+ICustomer.class
+IDatabaseConnection.class
+ICustomer$Gender.class

@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="3FA132_JuLu1" />
         <module name="3FA132_JuLu" />
       </profile>
     </annotationProcessing>

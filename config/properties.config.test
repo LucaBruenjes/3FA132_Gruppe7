@@ -1,6 +1,6 @@
 JulianKrütten.db.url = localhost:3306/hausverwaltung_db
-JulianKrütten.db.user = julian_testing
-JulianKrütten.db.pw = julian_passwort
+JulianKrütten.db.user = root
+JulianKrütten.db.pw = JuLu
 
 #ToDo @Luca Daten reinschreiben
 
