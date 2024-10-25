@@ -16,3 +16,5 @@ Maven (Luca):
 Implementierung der Interfaces und des vorgegebenen Codes (Luca):
 
 Aufbau de Baums und namespaces (Luca):
+
+Databaseconnection herstellen ():
