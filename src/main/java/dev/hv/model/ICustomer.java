@@ -1,3 +1,4 @@
+package dev.hv.model;
 
 import java.time.LocalDate;
 
