@@ -1,19 +1,18 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
 
-public class DatabaseConnection implements IDatabaseConnection {
+public class DatabaseConnection {
     private Connection connection;
 
 
 
-    static Connection OpenConnection() throws SQLException {
-        return DriverManager.getConnection(
+    static void OpenConnection() throws SQLException {
+        DriverManager.getConnection(
                 "localhost:3306/hausverwaltung_db, julian_testing, julian_passwort"
         );
     }
-    @Override
+
     /*public DatabaseConnection openConnection(Properties properties) throws SQLException {
 
         String localUsername = System.getProperty("user.name").toLowerCase();
@@ -28,7 +27,6 @@ public class DatabaseConnection implements IDatabaseConnection {
         return this;
     }*/
 
-    @Override
     public void createAllTables() throws SQLException {
         // Use VARCHAR(36) for UUIDs
         String createCustomerTable = "CREATE TABLE IF NOT EXISTS Customer (" +
@@ -56,16 +54,13 @@ public class DatabaseConnection implements IDatabaseConnection {
         connection.createStatement().execute(createReadingTable);
     }
 
-    @Override
+
     public void closeConnection() throws SQLException {
         if (connection != null && !connection.isClosed()) {
             connection.close();
         }
     }
 
-    public Object prepareStmt(String sql) {
-
-    }
 
     // Implement other methods (truncateAllTables, removeAllTables) as needed
 }

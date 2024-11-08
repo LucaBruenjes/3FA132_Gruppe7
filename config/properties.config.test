@@ -5,6 +5,3 @@ JulianKrütten.db.pw = julian_passwort
 user.db.url=jdbc:mariadb://localhost:3306/hausverwaltung_db
 user.db.user=root
 user.db.pw=JuLu
-
-Interface namespaces wurden umbenannt müssen orginal sein
-packist nicht der hit age org example
