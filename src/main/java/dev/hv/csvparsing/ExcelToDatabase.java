@@ -19,7 +19,8 @@ public class ExcelToDatabase {
         try (Connection connection = DriverManager.getConnection(jdbcURL, username, password)) {
             connection.setAutoCommit(false);
 
-            String sql = "INSERT INTO deine_tabelle (spalte1, spalte2, spalte3) VALUES (?, ?, ?)";
+            String sql =
+                    "INSERT INTO hausverwaltung_db (Kunde, Zählernummer, Datum, Zählerstand) VALUES (Kunde, Zählernummer, Datum, Zählerstand)";
             PreparedStatement statement = connection.prepareStatement(sql);
 
             FileInputStream inputStream = new FileInputStream(excelFilePath);

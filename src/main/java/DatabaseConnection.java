@@ -6,8 +6,15 @@ import java.util.Properties;
 public class DatabaseConnection implements IDatabaseConnection {
     private Connection connection;
 
+
+
+    static Connection OpenConnection() throws SQLException {
+        return DriverManager.getConnection(
+                "localhost:3306/hausverwaltung_db, julian_testing, julian_passwort"
+        );
+    }
     @Override
-    public DatabaseConnection openConnection(Properties properties) throws SQLException {
+    /*public DatabaseConnection openConnection(Properties properties) throws SQLException {
 
         String localUsername = System.getProperty("user.name").toLowerCase();
 
@@ -19,7 +26,7 @@ public class DatabaseConnection implements IDatabaseConnection {
         // Establishing a connection using the properties
         connection = DriverManager.getConnection(url, user, password);
         return this;
-    }
+    }*/
 
     @Override
     public void createAllTables() throws SQLException {
@@ -54,6 +61,10 @@ public class DatabaseConnection implements IDatabaseConnection {
         if (connection != null && !connection.isClosed()) {
             connection.close();
         }
+    }
+
+    public Object prepareStmt(String sql) {
+
     }
 
     // Implement other methods (truncateAllTables, removeAllTables) as needed

@@ -1,5 +1,6 @@
 package dev.hv.model;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 public interface ICustomer extends IId {
