@@ -5,10 +5,10 @@ import java.util.Properties;
 public class Main {
     public static void main(String[] args) {
         Properties properties = new Properties();
-        try (InputStream input = new FileInputStream("src/main/resources/database.properties")) {
+        try (InputStream input = new FileInputStream("config.properties.config.test")) {
             properties.load(input);
             DatabaseConnection dbConnection = new DatabaseConnection();
-            dbConnection.openConnection(properties);
+            DatabaseConnection.OpenConnection();
             dbConnection.createAllTables();
             dbConnection.closeConnection();
             System.out.println("Datenbanktabellen erfolgreich erstellt.");

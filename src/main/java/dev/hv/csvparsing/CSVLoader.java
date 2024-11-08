@@ -1,4 +1,4 @@
-package dev.hv.csvparsing;
+/*package dev.hv.csvparsing;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -32,4 +32,4 @@ public class CSVLoader {
             e.printStackTrace();
         }
     }
-}
+}*/
