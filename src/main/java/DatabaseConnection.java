@@ -54,7 +54,6 @@ public class DatabaseConnection {
         connection.createStatement().execute(createReadingTable);
     }
 
-
     public void closeConnection() throws SQLException {
         if (connection != null && !connection.isClosed()) {
             connection.close();

@@ -1,5 +1,6 @@
 package dev.hv.model;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 public interface IReading extends IId {
@@ -8,34 +9,34 @@ public interface IReading extends IId {
       HEIZUNG, STROM, UNBEKANNT, WASSER;
    }
 
-   String getComment();
+   String getComment() throws SQLException;
 
-   ICustomer getCustomer();
+   ICustomer getCustomer() throws SQLException;
 
-   LocalDate getDateOfReading();
+   LocalDate getDateOfReading() throws SQLException;
 
-   KindOfMeter getKindOfMeter();
+   KindOfMeter getKindOfMeter() throws SQLException;
 
-   Double getMeterCount();
+   Double getMeterCount() throws SQLException;
 
-   String getMeterId();
+   String getMeterId() throws SQLException;
 
-   Boolean getSubstitute();
+   Boolean getSubstitute() throws SQLException;
 
    String printDateOfReading();
 
-   void setComment(String comment);
+   void setComment(String comment) throws SQLException;
 
-   void setCustomer(ICustomer customer);
+   void setCustomer(ICustomer customer) throws SQLException;
 
-   void setDateOfReading(LocalDate dateOfReading);
+   void setDateOfReading(LocalDate dateOfReading) throws SQLException;
 
-   void setKindOfMeter(KindOfMeter kindOfMeter);
+   void setKindOfMeter(KindOfMeter kindOfMeter) throws SQLException;
 
-   void setMeterCount(Double meterCount);
+   void setMeterCount(Double meterCount) throws SQLException;
 
-   void setMeterId(String meterId);
+   void setMeterId(String meterId) throws SQLException;
 
-   void setSubstitute(Boolean substitute);
+   void setSubstitute(Boolean substitute) throws SQLException;
 
 }
