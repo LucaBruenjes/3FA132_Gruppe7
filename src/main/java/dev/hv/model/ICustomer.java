@@ -12,13 +12,13 @@ public interface ICustomer extends IId {
       W; // weiblich
    }
 
-   LocalDate getBirthDate();
-   String getFirstName();
-   Gender getGender();
-   String getLastName();
+   LocalDate getBirthDate() throws SQLException;
+   String getFirstName() throws SQLException;
+   Gender getGender() throws SQLException;
+   String getLastName() throws SQLException;
 
-   void setBirthDate(LocalDate birtDate);
-   void setFirstName(String firstName);
-   void setGender(Gender gender);
-   void setLastName(String lastName);
+   void setBirthDate(LocalDate birtDate) throws SQLException;
+   void setFirstName(String firstName) throws SQLException;
+   void setGender(Gender gender) throws SQLException;
+   void setLastName(String lastName) throws SQLException;
 }
