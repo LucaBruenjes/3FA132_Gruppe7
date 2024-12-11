@@ -18,6 +18,14 @@ public abstract class Customer implements ICustomer{
         stmt = con.createStatement();
     }
 
+    public Customer getCustomer() {
+        stmt.executeQuery(
+                "SELECT birth_date, first_name, last_name, gender FROM Customer WHERE id = " + customerId + ")"
+
+        )
+    }
+
+
     @Override
     public UUID getId() {
         return customerId;
