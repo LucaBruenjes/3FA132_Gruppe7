@@ -7,23 +7,27 @@ import java.util.UUID;
 public abstract class Customer implements ICustomer{
     Statement stmt;
     UUID customerId;
+    Date birthDate;
+    String firstName;
+    String lastName;
+    Gender gender;
 
-    public Customer(UUID id) throws SQLException {
-        customerId = id;
 
-        Connection con = DriverManager.getConnection(
-                System.getProperty("url.name"),
-                System.getProperty("user.name"),
-                System.getProperty("pw.name"));
-        stmt = con.createStatement();
+    public Customer(Date birthDate, String firstName, String lastName, Gender gender){
+        this.birthDate = birthDate;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
     }
 
     public Customer getCustomer() {
         stmt.executeQuery(
-                "SELECT birth_date, first_name, last_name, gender FROM Customer WHERE id = " + customerId + ")"
-
+                "SELECT birth_date, first_name, last_name, gender FROM Customer WHERE id = " + customerId + ")");
+    return Customer;
         )
     }
+
+
 
 
     @Override
