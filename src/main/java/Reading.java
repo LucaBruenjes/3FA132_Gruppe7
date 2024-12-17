@@ -26,6 +26,8 @@ public class Reading implements IReading {
         return rs.getString("comment");
     }
 
+    //ToDo alles rote funktierend machen und Luca soll JUnit Tests machen
+
     @Override
     public ICustomer getCustomer() throws SQLException {
         ResultSet rs = stmt.executeQuery("SELECT customer FROM Reading WHERE id = " + readingId + ")");

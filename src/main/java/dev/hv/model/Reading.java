@@ -51,7 +51,7 @@ public class Reading implements IReading{
         this.dateOfReading = dateOfReading;
     }
 
-    public double getMeterCount() {
+    public Double getMeterCount() {
         return meterCount;
     }
 
@@ -85,7 +85,8 @@ public class Reading implements IReading{
 
     }
 
-    public boolean getSubstitute() {
+    public Boolean getSubstitute() {
+
         return substitute;
     }
 
@@ -95,6 +96,7 @@ public class Reading implements IReading{
     }
 
     public void setSubstitute(boolean substitute) {
+
         this.substitute = substitute;
     }
 

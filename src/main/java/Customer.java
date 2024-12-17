@@ -1,35 +1,53 @@
 import dev.hv.model.ICustomer;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.UUID;
 
-public abstract class Customer implements ICustomer{
+public class Customer{
     Statement stmt;
     UUID customerId;
     Date birthDate;
     String firstName;
     String lastName;
-    Gender gender;
+    ICustomer.Gender gender;
 
 
-    public Customer(Date birthDate, String firstName, String lastName, Gender gender){
+    public Customer(Date birthDate, String firstName, String lastName, ICustomer.Gender gender){
         this.birthDate = birthDate;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
     }
 
-    public Customer getCustomer() {
-        stmt.executeQuery(
-                "SELECT birth_date, first_name, last_name, gender FROM Customer WHERE id = " + customerId + ")");
-    return Customer;
-        )
+    public Customer getCustomer(UUID customerId) throws SQLException {
+
+        Customer customer = null;
+        String query = "SELECT birth_date, first_name, last_name, gender FROM Customer WHERE id = " + customerId + ")";
+
+        try (ResultSet rs = stmt.executeQuery(query)) {
+            if (rs.next()) {
+                Object d = rs.getDate("birth_date");
+                Object f = rs.getString("first_name");
+                Object l = rs.getString("last_name");
+                Object g = rs.getObject("gender");
+
+            }
+
+
+               /* customer = new Customer(
+                        rs.getDate("birth_date"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getObject("gender")
+                );*/
+            }
+        return customer;
     }
 
 
 
 
+/*
     @Override
     public UUID getId() {
         return customerId;
@@ -83,5 +101,5 @@ public abstract class Customer implements ICustomer{
     @Override
     public void setLastName(String lastName) throws SQLException {
         stmt.executeQuery("INSERT INTO Customer (last_name) VALUES (" + lastName + ") WHERE customer_id = " + customerId + ")");
-    }
+    }*/
 }
