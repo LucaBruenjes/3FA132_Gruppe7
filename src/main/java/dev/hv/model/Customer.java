@@ -4,8 +4,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public class Customer implements ICustomer
-{
+public class Customer implements ICustomer {
     private LocalDate birthDate;
     private String name;
     private ICustomer.Gender gender;
@@ -28,14 +27,17 @@ public class Customer implements ICustomer
     }
 
     public String getName() {
+
         return name;
     }
 
     public ICustomer.Gender getGender() {
+
         return gender;
     }
 
     public String getLastName() {
+
         return lastName;
     }
 
@@ -49,14 +51,17 @@ public class Customer implements ICustomer
     }
 
     public void setName(String name) {
+
         this.name = name;
     }
 
     public void setGender(ICustomer.Gender gender) {
+
         this.gender = gender;
     }
 
     public void setLastName(String lastName) {
+
         this.lastName = lastName;
     }
 
