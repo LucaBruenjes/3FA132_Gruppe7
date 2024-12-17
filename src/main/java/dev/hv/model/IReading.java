@@ -6,7 +6,10 @@ import java.time.LocalDate;
 public interface IReading extends IId {
 
    enum KindOfMeter {
-      HEIZUNG, STROM, UNBEKANNT, WASSER;
+      HEIZUNG,
+      STROM,
+      UNBEKANNT,
+      WASSER;
    }
 
    String getComment() throws SQLException;

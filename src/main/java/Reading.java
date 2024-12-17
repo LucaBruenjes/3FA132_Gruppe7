@@ -1,3 +1,4 @@
+import dev.hv.model.Customer;
 import dev.hv.model.ICustomer;
 import dev.hv.model.IReading;
 
@@ -30,21 +31,42 @@ public class Reading implements IReading {
 
     @Override
     public ICustomer getCustomer() throws SQLException {
-        ResultSet rs = stmt.executeQuery("SELECT customer FROM Reading WHERE id = " + readingId + ")");
-        return new Customer(rs.getObject("customer", ICustomer));
+        String query = "SELECT customer FROM Reading WHERE id = " + readingId;
+        ResultSet rs = stmt.executeQuery(query);
 
+        if (rs.next()) {
+            String name = rs.getString("name");
+            String lastName = rs.getString("last_name");
+            LocalDate birthDate = rs.getDate("birth_date").toLocalDate();
+            ICustomer.Gender gender = ICustomer.Gender.valueOf(rs.getString("gender"));
+
+            return new Customer(name, lastName, birthDate, gender);
+        } else {
+            return null;
+        }
     }
 
     @Override
     public LocalDate getDateOfReading() throws SQLException {
-        ResultSet rs = stmt.executeQuery("SELECT date_of_reading FROM Reading WHERE id = " + readingId + ")");
-        return rs.getObject("date_of_reading", LocalDate);
+        String query = "SELECT date_of_reading FROM Reading WHERE id = " + readingId;
+        ResultSet rs = stmt.executeQuery(query);
+        if (rs.next()) {
+            return rs.getDate("date_of_reading").toLocalDate();
+        }
+
+        throw new SQLException("No reading found for id: " + readingId);
     }
 
     @Override
     public KindOfMeter getKindOfMeter() throws SQLException {
-        ResultSet rs = stmt.executeQuery("SELECT kind_of_meter FROM Reading WHERE id = " + readingId + ")");
-        return rs.getObject("kind_of_meter", KindOfMeter);
+        String query = "SELECT kind_of_meter FROM Reading WHERE id = " + readingId;
+        ResultSet rs = stmt.executeQuery(query);
+        if (rs.next()) {
+            String kindOfMeterValue = rs.getString("kind_of_meter");
+            return KindOfMeter.valueOf(kindOfMeterValue);
+        }
+
+        throw new SQLException("No reading found for id: " + readingId);
     }
 
     @Override
