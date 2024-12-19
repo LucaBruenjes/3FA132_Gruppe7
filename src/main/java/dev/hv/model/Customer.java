@@ -17,6 +17,7 @@ public class Customer implements ICustomer {
         this.gender = gender;
     }
 
+
     public LocalDate getBirthDate() {
         return birthDate;
     }

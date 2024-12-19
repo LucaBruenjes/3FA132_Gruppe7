@@ -1,9 +1,11 @@
 import dev.hv.model.ICustomer;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.UUID;
 
-public class Customer{
+public class DAOCustomer {
+    private Connection connection;
     Statement stmt;
     UUID customerId;
     Date birthDate;
@@ -12,20 +14,25 @@ public class Customer{
     ICustomer.Gender gender;
 
 
-    public Customer(Date birthDate, String firstName, String lastName, ICustomer.Gender gender){
+    public DAOCustomer(Date birthDate, String firstName, String lastName, ICustomer.Gender gender){
         this.birthDate = birthDate;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
     }
 
-    public Customer getCustomer(UUID customerId) throws SQLException {
+    public DAOCustomer(Connection connection) {
+        this.connection = connection;
+    }
 
-        Customer customer = null;
+    public DAOCustomer getCustomer(UUID customerId) throws SQLException {
+
+        DAOCustomer customer = null;
         String query = "SELECT birth_date, first_name, last_name, gender FROM Customer WHERE id = " + customerId + ")";
 
         try (ResultSet rs = stmt.executeQuery(query)) {
             if (rs.next()) {
+
                 Object d = rs.getDate("birth_date");
                 Object f = rs.getString("first_name");
                 Object l = rs.getString("last_name");
@@ -34,18 +41,15 @@ public class Customer{
             }
 
 
-               /* customer = new Customer(
+               customer = new DAOCustomer(
                         rs.getDate("birth_date"),
                         rs.getString("first_name"),
                         rs.getString("last_name"),
                         rs.getObject("gender")
-                );*/
+                );
             }
         return customer;
     }
-
-
-
 
 /*
     @Override
