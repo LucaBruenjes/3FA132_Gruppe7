@@ -1,35 +1,39 @@
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Properties;
 
 public class DatabaseConnection {
-    private Connection connection;
 
+    private static Properties properties;
 
-
-    static void OpenConnection() throws SQLException {
-        DriverManager.getConnection(
-                "localhost:3306/hausverwaltung_db, julian_testing, julian_passwort"
-        );
+    static {
+        try {
+            properties = new Properties();
+            try (InputStream input = DatabaseConnection.class.getClassLoader().getResourceAsStream("config.properties"))
+            {
+                if (input == null) {
+                    throw new RuntimeException("Datenbank Objekte in diesem Pfad nicht gefunden");
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Datenbank laden fehlgeschlagen", e);
+        }
     }
 
-    /*public DatabaseConnection openConnection(Properties properties) throws SQLException {
+    public static Connection getConnection() throws SQLException {
+        String url = properties.getProperty("db.url");
+        String name = properties.getProperty("db.user");
+        String pw = properties.getProperty("db.pw");
+       return DriverManager.getConnection(url, name, pw);
+    }
 
-        String localUsername = System.getProperty("user.name").toLowerCase();
-
-        // Use the correct property keys matching the database.properties file
-        String url = properties.getProperty("user.db.url");
-        String user = properties.getProperty("user.db.user");
-        String password = properties.getProperty("user.db.pw");
-
-        // Establishing a connection using the properties
-        connection = DriverManager.getConnection(url, user, password);
-        return this;
-    }*/
-
-    public void createAllTables() throws SQLException {
+    public static void createAllTables() {
         // Use VARCHAR(36) for UUIDs
-        String createCustomerTable = "CREATE TABLE IF NOT EXISTS Customer (" +
+        String createCustomersTable = "CREATE TABLE IF NOT EXISTS customers (" +
                 "id VARCHAR(36) PRIMARY KEY, " +
                 "first_name VARCHAR(100), " +
                 "last_name VARCHAR(100), " +
@@ -37,7 +41,7 @@ public class DatabaseConnection {
                 "gender ENUM('D', 'M', 'U', 'W')" +
                 ")";
 
-        String createReadingTable = "CREATE TABLE IF NOT EXISTS Reading (" +
+        String createReadingTable = "CREATE TABLE IF NOT EXISTS reading (" +
                 "id VARCHAR(36) PRIMARY KEY, " +
                 "meter_id VARCHAR(50), " +
                 "kind_of_meter ENUM('HEIZUNG', 'STROM', 'WASSER', 'UNBEKANNT'), " +
@@ -50,16 +54,20 @@ public class DatabaseConnection {
                 ")";
 
         // Execute the SQL commands to create the tables
-        connection.createStatement().execute(createCustomerTable);
-        connection.createStatement().execute(createReadingTable);
-    }
-
-    public void closeConnection() throws SQLException {
-        if (connection != null && !connection.isClosed()) {
-            connection.close();
+        try (Connection connection = getConnection()) {
+            try (Statement stmt = connection.createStatement()) {
+                stmt.execute(createCustomersTable);
+                stmt.execute(createReadingTable);
+            } catch (SQLException e) {
+                connection.rollback();
+                e.printStackTrace();
+                throw new RuntimeException("Tabellen erstellen fehlgeschlagen");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Datenbankverbindung fehlgeschlagen beim Erstellen von Tabellen");
         }
     }
-
 
     // Implement other methods (truncateAllTables, removeAllTables) as needed
 }
