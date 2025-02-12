@@ -39,12 +39,12 @@ public class DAOCustomer {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                ICustomer customer = new Customer(); // Ersetze 'Customer' mit deiner konkreten Implementierung von ICustomer
+                ICustomer customer = new Customer();
                 customer.setId(UUID.fromString(rs.getString("id")));
                 customer.setFirstName(rs.getString("first_name"));
                 customer.setLastName(rs.getString("last_name"));
                 customer.setBirthDate(rs.getDate("birth_date").toLocalDate());
-                customer.setGender(ICustomer.Gender.valueOf(rs.getString("gender"))); // Falls Gender ein Enum ist
+                customer.setGender(ICustomer.Gender.valueOf(rs.getString("gender")));
                 return customer;
             }
         } catch (SQLException e) {
@@ -52,5 +52,4 @@ public class DAOCustomer {
         }
         return null; // Falls kein Kunde gefunden wurde
     }
-
 }

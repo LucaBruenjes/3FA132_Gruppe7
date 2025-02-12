@@ -5,18 +5,27 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public class Customer implements ICustomer {
+    private  UUID id;
     private LocalDate birthDate;
     private String name;
     private ICustomer.Gender gender;
     private String lastName;
 
-    public Customer(String name, String lastName, LocalDate birthDate, ICustomer.Gender gender) {
+    public Customer(UUID id, String name, String lastName, LocalDate birthDate, ICustomer.Gender gender) {
+        this.id = id;
         this.name = name;
         this.lastName = lastName;
         this.birthDate = birthDate;
         this.gender = gender;
     }
 
+    public Customer() {
+
+    }
+
+    public Customer(UUID id) {
+        this.id = id;
+    }
 
     public LocalDate getBirthDate() {
         return birthDate;
@@ -73,7 +82,7 @@ public class Customer implements ICustomer {
 
     @Override
     public void setId(UUID id) throws SQLException {
-
+        this.id = id;
     }
 }
 
