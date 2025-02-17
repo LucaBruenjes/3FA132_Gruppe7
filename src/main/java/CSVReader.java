@@ -1,8 +1,12 @@
 import dev.hv.model.Customer;
+import dev.hv.model.IReading;
+import dev.hv.model.Reading;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -14,9 +18,10 @@ public class CSVReader {
 
         try(BufferedReader br = new BufferedReader(new FileReader("file.txt"))) {
             String line = br.readLine();
-            Customer customer;
+            Customer customer = null;
             String customerId;
-            String meterId;
+            String meterId = "";
+            boolean substitute = false;
 
             while (line != null) {
 
@@ -32,13 +37,11 @@ public class CSVReader {
                     meterId = values[1];
                     continue;
                 }
-                result.add(new Reading(new Customer())
-
-
-
-
-
-
+                if(values[2].contains("Zählertausch")) {
+                    substitute = true;
+                }
+                D
+                result.add(new Reading(values[2], customer, LocalDate.parse(values[0]), IReading.KindOfMeter.HEIZUNG, Double.parseDouble(values[1].replace(", ", ". ")), meterId, substitute));
                 line = br.readLine();
             }
 
@@ -46,6 +49,6 @@ public class CSVReader {
             throw new RuntimeException(e);
         }
 
-
-
+        return result;
     }
+}
