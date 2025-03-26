@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 
 public class CSVLoader {
 
+
     public static void main(String[] args) {
         CSVLoader loader = new CSVLoader();
         loader.loadCsvFile("heizung.csv");
@@ -32,4 +33,5 @@ public class CSVLoader {
             e.printStackTrace();
         }
     }
-}*/
+}
+*/

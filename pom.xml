@@ -3,65 +3,70 @@
     <groupId>dev.hv</groupId>
     <artifactId>Hausverwaltung</artifactId>
     <version>0.0.1</version>
+
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <mariadb.version>3.4.0</mariadb.version>
         <junit-jupiter.version>5.10.3</junit-jupiter.version>
+        <jersey.version>3.1.1</jersey.version>
+
         <maven.compiler.plugin.version>3.12.1</maven.compiler.plugin.version>
         <maven.surefire.plugin.version>3.3.0</maven.surefire.plugin.version>
         <maven.antrun.plugin.version>3.0.0</maven.antrun.plugin.version>
     </properties>
+
     <dependencies>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.33</version>
-        </dependency>
+        <!-- MariaDB Treiber -->
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
             <version>${mariadb.version}</version>
         </dependency>
 
-        <!--   JUNIT     -->
+        <!-- JUnit 5 -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
             <version>${junit-jupiter.version}</version>
         </dependency>
-        <!--   REST      -->
+
+        <!-- Jersey Abhängigkeiten (REST API) -->
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-jdk-http</artifactId>
-            <version>3.1.1</version>
+            <version>${jersey.version}</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-server</artifactId>
-            <version>3.1.1</version>
+            <version>${jersey.version}</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-client</artifactId>
-            <version>3.1.1</version>
+            <version>${jersey.version}</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-json-binding</artifactId>
-            <version>3.1.10</version>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <version>${jersey.version}</version>
         </dependency>
     </dependencies>
+
     <build>
         <defaultGoal>clean compile install</defaultGoal>
         <plugins>
-            <!--
-                            create folder: run with
-                            mvn antrun:run@createFolder
-                         -->
+            <!-- Erstelle Verzeichnisse -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
@@ -81,6 +86,8 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- Compiler Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -88,11 +95,10 @@
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
-                    <!-- 	<testExcludes>
-                                            <testExclude>**/*Test.java</testExclude>
-                                        </testExcludes>  -->
                 </configuration>
             </plugin>
+
+            <!-- Surefire Plugin (für Tests) -->
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.plugin.version}</version>

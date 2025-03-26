@@ -5,7 +5,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-public class CSVReaderTest {
+/*public class CSVReaderTest {
 
     static void OpenConnection() throws SQLException {
         try (Connection connection = DatabaseConnection.getConnection();) {
@@ -27,4 +27,4 @@ public class CSVReaderTest {
 
 
     }
-}
+}*/

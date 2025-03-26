@@ -34,7 +34,7 @@ public class DAOCustomerTest {
     @Test
     void testInsertAndRetrieveCustomer() throws SQLException {
         // Customer-DAO erstellen
-        DAOCustomer customerDao = new DAOCustomer(connection);
+        DAOCustomer customerDao = new DAOCustomer();
 
         // Testdaten erstellen
         UUID testId = UUID.randomUUID();
