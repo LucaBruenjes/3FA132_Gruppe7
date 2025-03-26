@@ -1,7 +1,5 @@
-/*package dev.hv.csvparsing;
+package dev.hv.csvparsing;
 
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -51,4 +49,4 @@ public class ExcelToDatabase {
             e.printStackTrace();
         }
     }
-}*/
+}
