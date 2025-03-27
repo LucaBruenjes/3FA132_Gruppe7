@@ -4,10 +4,10 @@ import java.util.Properties;
 
 public class Main {
     public static void main(String[] args) {
-        Properties properties = new Properties();
-        try (InputStream input = new FileInputStream("config.config.properties")) {
-            properties.load(input);
-            DatabaseConnection.createAllTables();
+
+        try {
+            DatabaseConnection databaseConnection = new DatabaseConnection();
+            databaseConnection.getConnection();
         } catch (Exception e) {
             e.printStackTrace();
         }

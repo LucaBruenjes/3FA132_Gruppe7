@@ -1,5 +1,8 @@
+import com.mysql.jdbc.Driver;
+
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -9,8 +12,25 @@ import java.util.Properties;
 public class DatabaseConnection {
 
     private static Properties properties;
+    private final String rootPath;
+    private final String appConfigPath;
 
-    static {
+
+    public DatabaseConnection() {
+        rootPath = Paths.get(".").normalize().toAbsolutePath().toString();
+        appConfigPath = rootPath + "\\src\\main\\resources\\config.properties";
+        properties = new Properties();
+
+        try {
+            properties.load(new FileInputStream(appConfigPath));
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    /*static {
         try {
             properties = new Properties();
             try (InputStream input = DatabaseConnection.class.getClassLoader().getResourceAsStream("config.properties"))
@@ -22,16 +42,16 @@ public class DatabaseConnection {
         } catch (IOException e) {
             throw new RuntimeException("Datenbank laden fehlgeschlagen", e);
         }
-    }
+    }*/
 
-    public static Connection getConnection() throws SQLException {
+    public Connection getConnection() throws SQLException {
         String url = properties.getProperty("db.url");
         String name = properties.getProperty("db.user");
         String pw = properties.getProperty("db.pw");
        return DriverManager.getConnection(url, name, pw);
     }
 
-    public static void createAllTables() {
+    public void createAllTables() {
         // Use VARCHAR(36) for UUIDs
         String createCustomersTable = "CREATE TABLE IF NOT EXISTS customers (" +
                 "id VARCHAR(36) PRIMARY KEY, " +

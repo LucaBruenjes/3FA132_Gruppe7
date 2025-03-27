@@ -10,7 +10,8 @@ public class DAOReading {
 
     public IReading createReading(IReading reading) {
         String sql = "INSERT INTO reading (id, meter_id, kind_of_meter, meter_count, date_of_reading, substitute, comment, customer_id, FOREIGN KEY) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (Connection connection = DatabaseConnection.getConnection();
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        try (Connection connection = databaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
 
             UUID newId = (reading.getId() == null) ? UUID.randomUUID() : reading.getId();

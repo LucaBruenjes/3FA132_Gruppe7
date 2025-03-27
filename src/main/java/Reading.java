@@ -33,12 +33,13 @@ public class Reading implements IReading {
         ResultSet rs = stmt.executeQuery(query);
 
         if (rs.next()) {
+            UUID id = UUID.randomUUID();
             String name = rs.getString("name");
             String lastName = rs.getString("last_name");
             LocalDate birthDate = rs.getDate("birth_date").toLocalDate();
             ICustomer.Gender gender = ICustomer.Gender.valueOf(rs.getString("gender"));
 
-            return new Customer(name, lastName, birthDate, gender);
+            return new Customer(id, name, lastName, birthDate, gender);
         } else {
             return null;
         }
