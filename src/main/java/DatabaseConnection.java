@@ -14,7 +14,7 @@ public class DatabaseConnection {
     private static Properties properties;
     private final String rootPath;
     private final String appConfigPath;
-
+    private Connection con;
 
     public DatabaseConnection() {
         rootPath = Paths.get(".").normalize().toAbsolutePath().toString();
@@ -45,16 +45,20 @@ public class DatabaseConnection {
     }*/
 
     public Connection getConnection() throws SQLException {
-        String url = properties.getProperty("db.url");
-        String name = properties.getProperty("db.user");
-        String pw = properties.getProperty("db.pw");
-       return DriverManager.getConnection(url, name, pw);
+        if (con == null) {
+            String url = properties.getProperty("db.url");
+            String name = properties.getProperty("db.user");
+            String pw = properties.getProperty("db.pw");
+            con = DriverManager.getConnection(url, name, pw);
+        }
+
+        return con;
     }
 
     public void createAllTables() {
         // Use VARCHAR(36) for UUIDs
         String createCustomersTable = "CREATE TABLE IF NOT EXISTS customers (" +
-                "id VARCHAR(36) PRIMARY KEY, " +
+                "id UUID PRIMARY KEY, " +
                 "first_name VARCHAR(100), " +
                 "last_name VARCHAR(100), " +
                 "birth_date DATE, " +
@@ -62,15 +66,15 @@ public class DatabaseConnection {
                 ")";
 
         String createReadingTable = "CREATE TABLE IF NOT EXISTS reading (" +
-                "id VARCHAR(36) PRIMARY KEY, " +
+                "id UUID PRIMARY KEY, " +
                 "meter_id VARCHAR(50), " +
                 "kind_of_meter ENUM('HEIZUNG', 'STROM', 'WASSER', 'UNBEKANNT'), " +
                 "meter_count DOUBLE, " +
                 "date_of_reading DATE, " +
                 "substitute BOOLEAN, " +
                 "comment TEXT, " +
-                "customer_id VARCHAR(36), " +
-                "FOREIGN KEY (customer_id) REFERENCES Customer(id) ON DELETE SET NULL" +
+                "customer_id UUID, " +
+                "FOREIGN KEY (customer_id) REFERENCES Customers (id) ON DELETE SET NULL" +
                 ")";
 
         // Execute the SQL commands to create the tables
