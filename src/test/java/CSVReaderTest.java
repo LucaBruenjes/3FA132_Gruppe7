@@ -8,7 +8,9 @@ import java.time.LocalDate;
 public class CSVReaderTest {
 
     static void OpenConnection() throws SQLException {
-        try (Connection connection = DatabaseConnection.getConnection();) {
+        Connection connection = new Connection();
+
+        try (connection.getConnection()) {
 
         } catch (SQLException e) {
             throw new RuntimeException();
