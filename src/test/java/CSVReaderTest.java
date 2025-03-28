@@ -7,16 +7,6 @@ import java.time.LocalDate;
 
 public class CSVReaderTest {
 
-    static void OpenConnection() throws SQLException {
-        Connection connection = new Connection();
-
-        try (connection.getConnection()) {
-
-        } catch (SQLException e) {
-            throw new RuntimeException();
-        }
-    }
-
     void testReadFromCSVReader() {
 
         String comment = "";
