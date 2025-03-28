@@ -40,7 +40,6 @@ public class CSVReader {
                 if(values[2].contains("Zählertausch")) {
                     substitute = true;
                 }
-                D
                 result.add(new Reading(values[2], customer, LocalDate.parse(values[0]), IReading.KindOfMeter.HEIZUNG, Double.parseDouble(values[1].replace(", ", ". ")), meterId, substitute));
                 line = br.readLine();
             }

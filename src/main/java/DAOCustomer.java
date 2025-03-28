@@ -9,7 +9,8 @@ public class DAOCustomer {
 
     public ICustomer createCustomer(ICustomer customer) {
         String sql = "INSERT INTO customers (id, first_name, last_name, birth_date, gender) VALUES (?,?,?,?,?)";
-        try (Connection connection = DatabaseConnection.getConnection();
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        try (Connection connection = databaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql);) {
 
             UUID newId = (customer.getId() == null) ? UUID.randomUUID() : customer.getId();
@@ -32,7 +33,8 @@ public class DAOCustomer {
 
     public ICustomer findById(UUID id) {
         String sql = "SELECT id, first_name, last_name, birth_date, gender FROM customers WHERE id = ?";
-        try (Connection connection = DatabaseConnection.getConnection();
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        try (Connection connection = databaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
 
             stmt.setString(1, id.toString());
