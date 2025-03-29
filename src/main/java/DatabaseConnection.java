@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
-public class DatabaseConnection implements IDatabaseConnection{
+public class DatabaseConnection implements IDatabaseConnection {
 
     private static Properties properties;
     private Connection con;
@@ -23,22 +23,6 @@ public class DatabaseConnection implements IDatabaseConnection{
             e.printStackTrace();
         }
     }
-
-
-
-    /*static {
-        try {
-            properties = new Properties();
-            try (InputStream input = DatabaseConnection.class.getClassLoader().getResourceAsStream("config.properties"))
-            {
-                if (input == null) {
-                    throw new RuntimeException("Datenbank Objekte in diesem Pfad nicht gefunden");
-                }
-            }
-        } catch (IOException e) {
-            throw new RuntimeException("Datenbank laden fehlgeschlagen", e);
-        }
-    }*/
 
     public Connection getConnection() throws SQLException {
         if (con == null) {

@@ -9,14 +9,23 @@ public class CSVReaderTest {
 
     void testReadFromCSVReader() {
 
-        String comment = "";
+
+
+
+
+
+
+
+
+
+
+
+        /*String comment = "";
         ICustomer customer = "ec617965-88b4-4721-8158-ee36c38e4db3";
         LocalDate dateOfReading = 01.05.2018;
         IReading.KindOfMeter kindOfMeter = Heizung;
         double meterCount = 6.859;
         String meterId = "Xr-2018-2312456ab";
-        boolean substitute = false;
-
-
+        boolean substitute = false;*/
     }
 }

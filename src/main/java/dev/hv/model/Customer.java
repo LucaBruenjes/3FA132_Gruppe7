@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public class Customer implements ICustomer {
-    private  UUID id;
+    private UUID id;
     private LocalDate birthDate;
     private String name;
     private ICustomer.Gender gender;
