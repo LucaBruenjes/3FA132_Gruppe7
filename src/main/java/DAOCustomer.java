@@ -2,7 +2,6 @@ import dev.hv.model.Customer;
 import dev.hv.model.ICustomer;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.UUID;
 
 public class DAOCustomer {
@@ -11,7 +10,7 @@ public class DAOCustomer {
         String sql = "INSERT INTO customers (id, first_name, last_name, birth_date, gender) VALUES (?,?,?,?,?)";
         DatabaseConnection databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql);) {
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
 
             UUID newId = (customer.getId() == null) ? UUID.randomUUID() : customer.getId();
             stmt.setString(1, newId.toString());

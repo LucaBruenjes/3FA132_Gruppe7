@@ -16,7 +16,7 @@ public class CSVReader {
     public static List<Reading> parseReading(String csvPath) {
         List<Reading> result = new ArrayList<>();
 
-        try(BufferedReader br = new BufferedReader(new FileReader("file.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("file.txt"))) {
             String line = br.readLine();
             Customer customer = null;
             String customerId;
@@ -26,18 +26,18 @@ public class CSVReader {
             while (line != null) {
 
                 String[] values = line.split(";");
-                if(values[0].isEmpty() || values[0].equals("Datum")) {
+                if (values[0].isEmpty() || values[0].equals("Datum")) {
                     continue;
                 }
-                if(values[0].equals("Kunde")) {
+                if (values[0].equals("Kunde")) {
                     customer = new Customer(UUID.fromString(values[1]));
                     continue;
                 }
-                if(values[0].equals("Zählernummer")) {
+                if (values[0].equals("Zählernummer")) {
                     meterId = values[1];
                     continue;
                 }
-                if(values[2].contains("Zählertausch")) {
+                if (values[2].contains("Zählertausch")) {
                     substitute = true;
                 }
                 result.add(new Reading(values[2], customer, LocalDate.parse(values[0]), IReading.KindOfMeter.HEIZUNG, Double.parseDouble(values[1].replace(", ", ". ")), meterId, substitute));

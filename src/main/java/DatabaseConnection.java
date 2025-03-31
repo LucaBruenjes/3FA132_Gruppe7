@@ -1,5 +1,3 @@
-import com.mysql.jdbc.Driver;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -9,16 +7,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
-public class DatabaseConnection {
+public class DatabaseConnection implements IDatabaseConnection {
 
     private static Properties properties;
-    private final String rootPath;
-    private final String appConfigPath;
     private Connection con;
 
     public DatabaseConnection() {
-        rootPath = Paths.get(".").normalize().toAbsolutePath().toString();
-        appConfigPath = rootPath + "\\src\\main\\resources\\config.properties";
+        String rootPath = Paths.get(".").normalize().toAbsolutePath().toString();
+        String appConfigPath = rootPath + "\\src\\main\\resources\\config.properties";
         properties = new Properties();
 
         try {
@@ -27,22 +23,6 @@ public class DatabaseConnection {
             e.printStackTrace();
         }
     }
-
-
-
-    /*static {
-        try {
-            properties = new Properties();
-            try (InputStream input = DatabaseConnection.class.getClassLoader().getResourceAsStream("config.properties"))
-            {
-                if (input == null) {
-                    throw new RuntimeException("Datenbank Objekte in diesem Pfad nicht gefunden");
-                }
-            }
-        } catch (IOException e) {
-            throw new RuntimeException("Datenbank laden fehlgeschlagen", e);
-        }
-    }*/
 
     public Connection getConnection() throws SQLException {
         if (con == null) {
@@ -93,7 +73,52 @@ public class DatabaseConnection {
         }
     }
 
-    // Implement other methods (truncateAllTables, removeAllTables) as needed
+    @Override
+    public void truncateAllTables() {
+        String truncateCustomersTable = "TRUNCATE FROM customers";
+        String truncateReadingTable = "TRUNCATE FROM reading";
+
+        // Execute the SQL commands to delete the tables
+        try (Connection connection = getConnection()) {
+            try (Statement stmt = connection.createStatement()) {
+                stmt.execute(truncateCustomersTable);
+                stmt.execute(truncateReadingTable);
+            } catch (SQLException e) {
+                connection.rollback();
+                e.printStackTrace();
+                throw new RuntimeException("Tabelleninhalt löschen fehlgeschlagen");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Datenbankverbindung fehlgeschlagen beim Tabelleninhalt Löschen von Tabellen");
+        }
+    }
+
+    @Override
+    public void removeAllTables() {
+        String deleteCustomersTable = "DELETE FROM customers";
+        String deleteReadingTable = "DELETE FROM reading";
+
+        // Execute the SQL commands to delete the tables
+        try (Connection connection = getConnection()) {
+            try (Statement stmt = connection.createStatement()) {
+                stmt.execute(deleteCustomersTable);
+                stmt.execute(deleteReadingTable);
+            } catch (SQLException e) {
+                connection.rollback();
+                e.printStackTrace();
+                throw new RuntimeException("Tabellen löschen fehlgeschlagen");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Datenbankverbindung fehlgeschlagen beim Löschen von Tabellen");
+        }
+    }
+
+    @Override
+    public void closeConnection() throws SQLException {
+        con.close();
+    }
 }
 
 
