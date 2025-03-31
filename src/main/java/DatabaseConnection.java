@@ -74,7 +74,7 @@ public class DatabaseConnection implements IDatabaseConnection {
     }
 
     @Override
-    public void truncateAllTables() throws SQLException {
+    public void truncateAllTables() {
         String truncateCustomersTable = "TRUNCATE FROM customers";
         String truncateReadingTable = "TRUNCATE FROM reading";
 
@@ -95,7 +95,7 @@ public class DatabaseConnection implements IDatabaseConnection {
     }
 
     @Override
-    public void removeAllTables() throws SQLException {
+    public void removeAllTables() {
         String deleteCustomersTable = "DELETE FROM customers";
         String deleteReadingTable = "DELETE FROM reading";
 
