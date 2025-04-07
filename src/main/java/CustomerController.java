@@ -2,13 +2,14 @@
 
 
 @Path ("customers")
-public class customerController
+public class CustomerController
 {
     @GET
     @Path("customer")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCustomer() {
         Customer customer = new Customer;
+
         return Response.status(Response.Status.OK).entity(customer).build();
     }
 
@@ -16,7 +17,7 @@ public class customerController
     @Path("customer")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addCustomer(Customer customer) {
-        //ToDO Inhalt
+        customer.createCustomer()
     }
 
     @PUT
