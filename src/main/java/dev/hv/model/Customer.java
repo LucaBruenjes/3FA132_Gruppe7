@@ -84,5 +84,8 @@ public class Customer implements ICustomer {
     public void setId(UUID id) throws SQLException {
         this.id = id;
     }
+
+    public void createCustomer() {
+    }
 }
 

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Hausverwaltung Frontend</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        input, select, textarea { margin: 5px 0; display: block; width: 100%; }
+        section { margin-bottom: 40px; }
+        button { margin-top: 10px; }
+        pre { background: #f4f4f4; padding: 10px; border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+<h1>Hausverwaltung Frontend</h1>
+
+<section>
+    <h2>Kunde erstellen</h2>
+    <input type="text" id="firstName" placeholder="Vorname">
+    <input type="text" id="lastName" placeholder="Nachname">
+    <input type="date" id="birthDate">
+    <select id="gender">
+        <option value="M">Männlich</option>
+        <option value="W">Weiblich</option>
+        <option value="D">Divers</option>
+        <option value="U">Unbekannt</option>
+    </select>
+    <button onclick="createCustomer()">Erstellen</button>
+    <pre id="createCustomerResult"></pre>
+</section>
+
+<section>
+    <h2>Kunde suchen</h2>
+    <input type="text" id="searchCustomerId" placeholder="Kunden-ID (UUID)">
+    <button onclick="getCustomer()">Suchen</button>
+    <pre id="searchCustomerResult"></pre>
+</section>
+
+<section>
+    <h2>Messwert erstellen</h2>
+    <input type="text" id="readingCustomerId" placeholder="Kunden-ID (UUID)">
+    <input type="text" id="meterId" placeholder="Zählernummer">
+    <input type="number" id="meterCount" placeholder="Zählerstand (z.B. 12.34)">
+    <input type="date" id="readingDate">
+    <select id="kindOfMeter">
+        <option value="HEIZUNG">Heizung</option>
+        <option value="STROM">Strom</option>
+        <option value="WASSER">Wasser</option>
+        <option value="UNBEKANNT">Unbekannt</option>
+    </select>
+    <textarea id="comment" placeholder="Kommentar"></textarea>
+    <label><input type="checkbox" id="substitute"> Ersatzablesung</label>
+    <button onclick="createReading()">Messwert speichern</button>
+    <pre id="createReadingResult"></pre>
+</section>
+
+<script>
+    const apiBase = 'http://localhost:8080'; // ggf. anpassen
+
+    async function createCustomer() {
+      const body = {
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        birthDate: document.getElementById('birthDate').value,
+        gender: document.getElementById('gender').value
+      };
+
+      const res = await fetch(`${apiBase}/customers`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+
+      document.getElementById('createCustomerResult').textContent = await res.text();
+    }
+
+    async function getCustomer() {
+      const id = document.getElementById('searchCustomerId').value;
+
+      const res = await fetch(`${apiBase}/customers/${id}`);
+      document.getElementById('searchCustomerResult').textContent = await res.text();
+    }
+
+    async function createReading() {
+      const body = {
+        meterId: document.getElementById('meterId').value,
+        meterCount: parseFloat(document.getElementById('meterCount').value),
+        dateOfReading: document.getElementById('readingDate').value,
+        kindOfMeter: document.getElementById('kindOfMeter').value,
+        comment: document.getElementById('comment').value,
+        substitute: document.getElementById('substitute').checked,
+        customerId: document.getElementById('readingCustomerId').value
+      };
+
+      const res = await fetch(`${apiBase}/readings`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+
+      document.getElementById('createReadingResult').textContent = await res.text();
+    }
+</script>
+</body>
+</html>

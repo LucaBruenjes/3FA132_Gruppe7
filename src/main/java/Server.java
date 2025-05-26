@@ -30,6 +30,9 @@ public class Server {
 	}
 
 	public static void stopServer() {
-
+		if (server != null) {
+			System.out.println("Stopping server...");
+			server.stop(5);
+		}
 	}
 }
