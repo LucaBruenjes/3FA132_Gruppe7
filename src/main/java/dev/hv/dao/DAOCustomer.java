@@ -1,3 +1,5 @@
+package dev.hv.dao;
+
 import dev.hv.model.Customer;
 import dev.hv.model.ICustomer;
 
@@ -52,5 +54,18 @@ public class DAOCustomer {
             throw new RuntimeException(e);
         }
         return null; // Falls kein Kunde gefunden wurde
+    }
+
+    public void deleteById(UUID id) {
+        String sql = "DELETE FROM customers WHERE id = ?";
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, id.toString());
+            stmt.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

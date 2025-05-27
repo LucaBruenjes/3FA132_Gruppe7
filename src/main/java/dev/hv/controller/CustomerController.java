@@ -1,4 +1,7 @@
+package dev.hv.controller;
+
 import dev.hv.model.Customer;
+import dev.hv.model.ICustomer;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -8,35 +11,21 @@ import java.util.UUID;
 @Path("customers")
 public class CustomerController
 {
-    @GET
-    @Path("customer")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getCustomer() {
-        Customer customer = new Customer();
-
-        return Response.status(Response.Status.OK).entity(customer).build();
-    }
-
     @POST
     @Path("customer")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void addCustomer(Customer customer) {
+    public Response addCustomer(Customer customer) {
         customer.createCustomer();
-    }
-
-    @PUT
-    @Path("customer")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateCustomer(Customer customer) {
-        //ToDO Inhalt
-        return null;
+        System.out.println("Customer erfolgreich erstellt");
+        String message = "Customer erfolgreich erstellt";
+        return Response.ok(message).build();
     }
 
     @GET
     @Path("customer/{uuid}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCustomerById(@PathParam("uuid") UUID uuid) {
-        Customer customer = new Customer();
+        ICustomer customer = new Customer().getCustomerById(uuid);
         return Response.status(Response.Status.OK).entity(customer).build();
     }
 
@@ -44,7 +33,8 @@ public class CustomerController
     @Path("customer/{uuid}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteCustomerById(@PathParam("uuid") UUID uuid) {
-        Customer customer = new Customer();
-        return Response.status(Response.Status.OK).entity(customer).build();
+        new Customer().deleteCustomerById(uuid);
+        String message = "Customer wurde gelöscht";
+        return Response.ok(message).build();
     }
 }

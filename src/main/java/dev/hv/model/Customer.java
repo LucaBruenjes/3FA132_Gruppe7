@@ -1,5 +1,7 @@
 package dev.hv.model;
 
+import dev.hv.dao.DAOCustomer;
+
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -7,13 +9,13 @@ import java.util.UUID;
 public class Customer implements ICustomer {
     private UUID id;
     private LocalDate birthDate;
-    private String name;
+    private String firstName;
     private ICustomer.Gender gender;
     private String lastName;
 
-    public Customer(UUID id, String name, String lastName, LocalDate birthDate, ICustomer.Gender gender) {
+    public Customer(UUID id, String firstName, String lastName, LocalDate birthDate, ICustomer.Gender gender) {
         this.id = id;
-        this.name = name;
+        this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
         this.gender = gender;
@@ -33,12 +35,7 @@ public class Customer implements ICustomer {
 
     @Override
     public String getFirstName() throws SQLException {
-        return "";
-    }
-
-    public String getName() {
-
-        return name;
+        return firstName;
     }
 
     public ICustomer.Gender getGender() {
@@ -57,12 +54,7 @@ public class Customer implements ICustomer {
 
     @Override
     public void setFirstName(String firstName) throws SQLException {
-
-    }
-
-    public void setName(String name) {
-
-        this.name = name;
+        this.firstName = firstName;
     }
 
     public void setGender(ICustomer.Gender gender) {
@@ -86,6 +78,18 @@ public class Customer implements ICustomer {
     }
 
     public void createCustomer() {
+        DAOCustomer dao = new DAOCustomer();
+        dao.createCustomer(this);
+    }
+
+    public ICustomer getCustomerById(UUID id) {
+        DAOCustomer dao = new DAOCustomer();
+        return dao.findById(id);
+    }
+
+    public void deleteCustomerById(UUID id) {
+        DAOCustomer dao = new DAOCustomer();
+        dao.deleteById(id);
     }
 }
 

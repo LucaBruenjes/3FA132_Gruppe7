@@ -1,3 +1,5 @@
+package dev.hv.dao;
+
 import dev.hv.model.IReading;
 
 import java.sql.Connection;

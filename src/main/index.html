@@ -37,6 +37,13 @@
 </section>
 
 <section>
+    <h2>Kunde löschen</h2>
+    <input type="text" id="deleteCustomerId" placeholder="Kunden-ID (UUID)">
+    <button onclick="deleteCustomer()">Löschen</button>
+    <pre id="deleteCustomerResult"></pre>
+</section>
+
+<section>
     <h2>Messwert erstellen</h2>
     <input type="text" id="readingCustomerId" placeholder="Kunden-ID (UUID)">
     <input type="text" id="meterId" placeholder="Zählernummer">
@@ -55,7 +62,7 @@
 </section>
 
 <script>
-    const apiBase = 'http://localhost:8080'; // ggf. anpassen
+    const apiBase = 'http://localhost:8080';
 
     async function createCustomer() {
       const body = {
@@ -65,7 +72,7 @@
         gender: document.getElementById('gender').value
       };
 
-      const res = await fetch(`${apiBase}/customers`, {
+      const res = await fetch(`${apiBase}/customers/customer`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -77,8 +84,15 @@
     async function getCustomer() {
       const id = document.getElementById('searchCustomerId').value;
 
-      const res = await fetch(`${apiBase}/customers/${id}`);
+      const res = await fetch(`${apiBase}/customers/customer/${id}`);
       document.getElementById('searchCustomerResult').textContent = await res.text();
+    }
+
+    async function deleteCustomer() {
+      const id = document.getElementById('deleteCustomerId').value;
+
+      const res = await fetch(`${apiBase}/customers/customer/${id}`, {method:"DELETE"});
+      document.getElementById('deleteCustomerResult').textContent = await res.text();
     }
 
     async function createReading() {
