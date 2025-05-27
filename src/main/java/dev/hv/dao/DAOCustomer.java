@@ -56,6 +56,24 @@ public class DAOCustomer {
         return null; // Falls kein Kunde gefunden wurde
     }
 
+    public void updateCustomer(ICustomer customer) {
+        String sql = "UPDATE customers SET first_name = ?, last_name = ?, birth_date = ?, gender = ? WHERE id = ?";
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, customer.getFirstName());
+            stmt.setString(2, customer.getLastName());
+            stmt.setDate(3, customer.getBirthDate() != null ? Date.valueOf(customer.getBirthDate()) : null);
+            stmt.setString(4, customer.getGender() != null ? customer.getGender().name() : null);
+            stmt.setString(5, customer.getId().toString());
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void deleteById(UUID id) {
         String sql = "DELETE FROM customers WHERE id = ?";
         DatabaseConnection databaseConnection = new DatabaseConnection();

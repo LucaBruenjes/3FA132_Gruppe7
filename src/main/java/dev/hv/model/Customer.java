@@ -68,8 +68,8 @@ public class Customer implements ICustomer {
     }
 
     @Override
-    public UUID getId() throws SQLException {
-        return null;
+    public UUID getId() {
+        return id;
     }
 
     @Override
@@ -85,6 +85,11 @@ public class Customer implements ICustomer {
     public ICustomer getCustomerById(UUID id) {
         DAOCustomer dao = new DAOCustomer();
         return dao.findById(id);
+    }
+
+    public void updateCustomer(ICustomer customer) {
+        DAOCustomer dao = new DAOCustomer();
+        dao.updateCustomer(customer);
     }
 
     public void deleteCustomerById(UUID id) {

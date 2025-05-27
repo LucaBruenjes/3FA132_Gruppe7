@@ -37,6 +37,22 @@
 </section>
 
 <section>
+    <h2>Kunde bearbeiten</h2>
+    <input type="text" id="updateId" placeholder="Kunden-ID (UUID)">
+    <input type="text" id="updateFirstName" placeholder="Vorname">
+    <input type="text" id="updateLastName" placeholder="Nachname">
+    <input type="date" id="updateBirthDate">
+    <select id="updateGender">
+        <option value="M">Männlich</option>
+        <option value="W">Weiblich</option>
+        <option value="D">Divers</option>
+        <option value="U">Unbekannt</option>
+    </select>
+    <button onclick="updateCustomer()">Bearbeiten</button>
+    <pre id="updateCustomerResult"></pre>
+</section>
+
+<section>
     <h2>Kunde löschen</h2>
     <input type="text" id="deleteCustomerId" placeholder="Kunden-ID (UUID)">
     <button onclick="deleteCustomer()">Löschen</button>
@@ -86,6 +102,24 @@
 
       const res = await fetch(`${apiBase}/customers/customer/${id}`);
       document.getElementById('searchCustomerResult').textContent = await res.text();
+    }
+
+    async function updateCustomer() {
+      const body = {
+        id: document.getElementById('updateId').value,
+        firstName: document.getElementById('updateFirstName').value,
+        lastName: document.getElementById('updateLastName').value,
+        birthDate: document.getElementById('updateBirthDate').value,
+        gender: document.getElementById('updateGender').value
+      };
+
+      const res = await fetch(`${apiBase}/customers/customer`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+
+      document.getElementById('updateCustomerResult').textContent = await res.text();
     }
 
     async function deleteCustomer() {
