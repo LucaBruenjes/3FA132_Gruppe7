@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public class CSVReader {
 
-    public static List<Reading> parseReading(String csvPath) {
+    public static List<Reading> parseReading(String csvPath, IReading.KindOfMeter kindOfMeter) {
         List<Reading> result = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader("file.txt"))) {
@@ -40,7 +40,8 @@ public class CSVReader {
                 if (values[2].contains("Zählertausch")) {
                     substitute = true;
                 }
-                result.add(new Reading(values[2], customer, LocalDate.parse(values[0]), IReading.KindOfMeter.HEIZUNG, Double.parseDouble(values[1].replace(", ", ". ")), meterId, substitute));
+                String dateStr = values[0].replace("\"", "").trim();
+                result.add(new Reading(values[2], customer, LocalDate.parse(dateStr), kindOfMeter, Double.parseDouble(values[1].replace(", ", ". ")), meterId, substitute));
                 line = br.readLine();
             }
 

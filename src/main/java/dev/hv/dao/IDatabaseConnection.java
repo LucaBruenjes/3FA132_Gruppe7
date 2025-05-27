@@ -1,8 +1,10 @@
+package dev.hv.dao;
+
 import java.sql.SQLException;
 
 public interface IDatabaseConnection {
 
-    //IDatabaseConnection getConnection() throws SQLException;
+    //dev.hv.dao.IDatabaseConnection getConnection() throws SQLException;
     void createAllTables() throws SQLException;
 
     void truncateAllTables() throws SQLException;

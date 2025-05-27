@@ -1,7 +1,7 @@
+import dev.hv.dao.DAOCustomer;
 import dev.hv.model.ICustomer;
 import org.junit.jupiter.api.*;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;

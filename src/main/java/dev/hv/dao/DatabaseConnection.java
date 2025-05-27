@@ -1,3 +1,5 @@
+package dev.hv.dao;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -54,7 +56,7 @@ public class DatabaseConnection implements IDatabaseConnection {
                 "substitute BOOLEAN, " +
                 "comment TEXT, " +
                 "customer_id UUID, " +
-                "FOREIGN KEY (customer_id) REFERENCES Customers (id) ON DELETE SET NULL" +
+                "FOREIGN KEY (customer_id) REFERENCES Customers (id) ON DELETE SET NULL" +  //Wenn ein Kunde gelöscht wird, sollen die zugehörigen Ablesungen beibehalten werden, aber ohne Kundenreferenz.
                 ")";
 
         // Execute the SQL commands to create the tables
