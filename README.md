@@ -7,14 +7,18 @@ Versionierung (Julian):
   Danach wird ein pull request erstellt, damit der Teampartner den Code reviewen kann. Bei erfolgreicher Code Review durch den Teampartner, wird
   daraufhin auf den Main branch gemergt.
 
-Git Meilensteine und Issues (Julian):
+Git Meilensteine und Issues (Luca):
 
-CRUD (Julian & Luca):
+CRUD (Julian):
 
 Maven (Luca):
 
-Implementierung der Interfaces und des vorgegebenen Codes (Luca):
+Implementierung der Interfaces und des vorgegebenen Codes (Julian):
 
-Aufbau de Baums und namespaces (Luca):
+Databaseconnection herstellen (Julian & Luca):
 
-Databaseconnection herstellen ():
+Testen (Luca)
+
+REST Schnittstelle anhand Protokoll (Julian)
+
+
