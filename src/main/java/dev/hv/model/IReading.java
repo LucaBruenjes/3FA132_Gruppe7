@@ -12,38 +12,38 @@ public interface IReading extends IId {
         WASSER;
     }
 
-    String getComment() throws SQLException;
+    String getComment();
 
-    ICustomer getCustomer() throws SQLException;
+    ICustomer getCustomer();
 
     String getCustomerID();
 
-    LocalDate getDateOfReading() throws SQLException;
+    LocalDate getDateOfReading();
 
-    KindOfMeter getKindOfMeter() throws SQLException;
+    KindOfMeter getKindOfMeter();
 
-    Double getMeterCount() throws SQLException;
+    Double getMeterCount();
 
-    String getMeterId() throws SQLException;
+    String getMeterId();
 
-    Boolean getSubstitute() throws SQLException;
+    Boolean getSubstitute();
 
     String printDateOfReading();
 
-    void setComment(String comment) throws SQLException;
+    void setComment(String comment);
 
-    void setCustomer(ICustomer customer) throws SQLException;
+    void setCustomer(ICustomer customer);
 
     void setCustomerID(String customerID);
 
-    void setDateOfReading(LocalDate dateOfReading) throws SQLException;
+    void setDateOfReading(LocalDate dateOfReading);
 
-    void setKindOfMeter(KindOfMeter kindOfMeter) throws SQLException;
+    void setKindOfMeter(KindOfMeter kindOfMeter);
 
-    void setMeterCount(Double meterCount) throws SQLException;
+    void setMeterCount(Double meterCount);
 
-    void setMeterId(String meterId) throws SQLException;
+    void setMeterId(String meterId);
 
-    void setSubstitute(Boolean substitute) throws SQLException;
+    void setSubstitute(Boolean substitute);
 
 }

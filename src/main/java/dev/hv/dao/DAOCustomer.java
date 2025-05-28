@@ -18,7 +18,7 @@ public class DAOCustomer {
             stmt.setString(1, newId.toString());
             stmt.setString(2, customer.getFirstName());
             stmt.setString(3, customer.getLastName());
-            stmt.setDate(4, Date.valueOf(customer.getBirthDate()));
+            stmt.setDate(4, customer.getBirthDate() != null ? Date.valueOf(customer.getBirthDate()) : null);
             stmt.setString(5, customer.getGender() != null ? customer.getGender().name() : null);
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -39,8 +39,8 @@ public class DAOCustomer {
                 customer.setId(UUID.fromString(rs.getString("id")));
                 customer.setFirstName(rs.getString("first_name"));
                 customer.setLastName(rs.getString("last_name"));
-                customer.setBirthDate(rs.getDate("birth_date").toLocalDate());
-                customer.setGender(ICustomer.Gender.valueOf(rs.getString("gender")));
+                customer.setBirthDate(rs.getDate("birth_date") != null ? rs.getDate("birth_date").toLocalDate() : null);
+                customer.setGender(rs.getString("gender") != null ? ICustomer.Gender.valueOf(rs.getString("gender")) : null);
                 return customer;
             }
             return null;

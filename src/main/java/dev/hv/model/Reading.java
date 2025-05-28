@@ -82,7 +82,7 @@ public class Reading implements IReading {
     }
 
     @Override
-    public void setMeterCount(Double meterCount) throws SQLException {
+    public void setMeterCount(Double meterCount) {
 
     }
 
@@ -95,7 +95,7 @@ public class Reading implements IReading {
     }
 
     @Override
-    public void setSubstitute(Boolean substitute) throws SQLException {
+    public void setSubstitute(Boolean substitute) {
 
     }
 
@@ -115,12 +115,12 @@ public class Reading implements IReading {
     }
 
     @Override
-    public UUID getId() throws SQLException {
+    public UUID getId() {
         return id;
     }
 
     @Override
-    public void setId(UUID id) throws SQLException {
+    public void setId(UUID id) {
         this.id = id;
     }
 

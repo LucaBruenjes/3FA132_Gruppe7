@@ -1,6 +1,9 @@
 package dev.hv.controller;
 
+import dev.hv.dao.DAOCustomer;
 import dev.hv.dao.DAOReading;
+import dev.hv.model.Customer;
+import dev.hv.model.ICustomer;
 import dev.hv.model.Reading;
 import dev.hv.model.IReading;
 import jakarta.ws.rs.*;
@@ -8,6 +11,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.UUID;
 
 @Path("/")
@@ -17,11 +21,20 @@ public class ReadingController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addReading(Reading reading) {
+        if (reading.getCustomerID() == null || Objects.equals(reading.getCustomerID(), "")) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("CustomerID muss befüllt sein").build();
+        }
         try {
-            System.out.println(reading);
+            ICustomer customer = new DAOCustomer().findById(UUID.fromString(reading.getCustomerID()));
+            if (customer == null) {
+                Customer customerToCreate = new Customer();
+                customerToCreate.setId(UUID.fromString(reading.getCustomerID()));
+                customerToCreate.setGender(ICustomer.Gender.U);
+                new DAOCustomer().createCustomer(customerToCreate);
+            }
             IReading createdReading = new DAOReading().createReading(reading);
             return Response.status(Response.Status.CREATED).entity(createdReading).build();
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
     }
