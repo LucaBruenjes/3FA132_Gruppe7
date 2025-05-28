@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Hausverwaltung Frontend</title>
+    <title>Hausverwaltung</title>
     <style>
         body { font-family: sans-serif; margin: 20px; }
         input, select, textarea { margin: 5px 0; display: block; width: 100%; }
@@ -34,6 +34,12 @@
     <input type="text" id="searchCustomerId" placeholder="Kunden-ID (UUID)">
     <button onclick="getCustomer()">Suchen</button>
     <pre id="searchCustomerResult"></pre>
+</section>
+
+<section>
+    <h2>Alle Kunden anzeigen</h2>
+    <button onclick="getCustomers()">Suchen</button>
+    <pre id="searchCustomersResult"></pre>
 </section>
 
 <section>
@@ -88,7 +94,7 @@
         gender: document.getElementById('gender').value
       };
 
-      const res = await fetch(`${apiBase}/customers/customer`, {
+      const res = await fetch(`${apiBase}/customers`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -100,8 +106,13 @@
     async function getCustomer() {
       const id = document.getElementById('searchCustomerId').value;
 
-      const res = await fetch(`${apiBase}/customers/customer/${id}`);
+      const res = await fetch(`${apiBase}/customers/${id}`);
       document.getElementById('searchCustomerResult').textContent = await res.text();
+    }
+
+    async function getCustomers() {
+      const res = await fetch(`${apiBase}/customers`);
+      document.getElementById('searchCustomersResult').textContent = await res.text();
     }
 
     async function updateCustomer() {
@@ -113,7 +124,7 @@
         gender: document.getElementById('updateGender').value
       };
 
-      const res = await fetch(`${apiBase}/customers/customer`, {
+      const res = await fetch(`${apiBase}/customers`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -125,7 +136,7 @@
     async function deleteCustomer() {
       const id = document.getElementById('deleteCustomerId').value;
 
-      const res = await fetch(`${apiBase}/customers/customer/${id}`, {method:"DELETE"});
+      const res = await fetch(`${apiBase}/customers/${id}`, {method:"DELETE"});
       document.getElementById('deleteCustomerResult').textContent = await res.text();
     }
 

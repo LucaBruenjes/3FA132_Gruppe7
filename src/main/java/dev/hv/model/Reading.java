@@ -1,13 +1,15 @@
 package dev.hv.model;
-import dev.hv.model.ICustomer;
 
+import dev.hv.dao.DAOReading;
+import jakarta.json.bind.annotation.JsonbTransient;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public class Reading implements IReading{
+public class Reading implements IReading {
 
     private String comment;
+    @JsonbTransient
     private ICustomer customer;
     private LocalDate dateOfReading;
     private IReading.KindOfMeter kindOfMeter;
@@ -108,5 +110,10 @@ public class Reading implements IReading{
     @Override
     public void setId(UUID id) throws SQLException {
 
+    }
+
+    public void createReading() {
+        DAOReading dao = new DAOReading();
+        dao.createReading(this);
     }
 }

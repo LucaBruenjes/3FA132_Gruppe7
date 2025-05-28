@@ -1,7 +1,6 @@
 package dev.hv.model;
 
 import dev.hv.dao.DAOCustomer;
-
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -77,7 +76,7 @@ public class Customer implements ICustomer {
         this.id = id;
     }
 
-    public void createCustomer() {
+    public void createCustomer() throws RuntimeException {
         DAOCustomer dao = new DAOCustomer();
         dao.createCustomer(this);
     }

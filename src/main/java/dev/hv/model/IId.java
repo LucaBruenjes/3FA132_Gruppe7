@@ -5,8 +5,7 @@ import java.util.UUID;
 
 public interface IId {
 
-   UUID getId() throws SQLException;
+    UUID getId() throws SQLException;
 
-   void setId(UUID id) throws SQLException;
-
+    void setId(UUID id) throws SQLException;
 }
