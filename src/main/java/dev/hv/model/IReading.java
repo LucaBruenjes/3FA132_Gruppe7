@@ -16,6 +16,8 @@ public interface IReading extends IId {
 
     ICustomer getCustomer() throws SQLException;
 
+    String getCustomerID();
+
     LocalDate getDateOfReading() throws SQLException;
 
     KindOfMeter getKindOfMeter() throws SQLException;
@@ -31,6 +33,8 @@ public interface IReading extends IId {
     void setComment(String comment) throws SQLException;
 
     void setCustomer(ICustomer customer) throws SQLException;
+
+    void setCustomerID(String customerID);
 
     void setDateOfReading(LocalDate dateOfReading) throws SQLException;
 

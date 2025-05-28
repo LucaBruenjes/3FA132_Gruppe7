@@ -90,10 +90,5 @@ public class Customer implements ICustomer {
         DAOCustomer dao = new DAOCustomer();
         dao.updateCustomer(customer);
     }
-
-    public void deleteCustomerById(UUID id) {
-        DAOCustomer dao = new DAOCustomer();
-        dao.deleteById(id);
-    }
 }
 

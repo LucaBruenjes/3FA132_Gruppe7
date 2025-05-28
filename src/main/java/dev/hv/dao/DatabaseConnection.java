@@ -98,14 +98,14 @@ public class DatabaseConnection implements IDatabaseConnection {
 
     @Override
     public void removeAllTables() {
-        String deleteCustomersTable = "DELETE FROM customers";
-        String deleteReadingTable = "DELETE FROM reading";
+        String deleteReadingTable = "DROP TABLE reading";
+        String deleteCustomersTable = "DROP TABLE customers";
 
         // Execute the SQL commands to delete the tables
         try (Connection connection = getConnection()) {
             try (Statement stmt = connection.createStatement()) {
-                stmt.execute(deleteCustomersTable);
                 stmt.execute(deleteReadingTable);
+                stmt.execute(deleteCustomersTable);
             } catch (SQLException e) {
                 connection.rollback();
                 e.printStackTrace();

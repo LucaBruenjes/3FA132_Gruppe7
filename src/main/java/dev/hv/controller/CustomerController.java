@@ -52,18 +52,16 @@ public class CustomerController {
     @Produces(MediaType.TEXT_PLAIN)
     public Response updateCustomer(Customer updatedCustomer) {
         ICustomer customer = new Customer().getCustomerById(updatedCustomer.getId());
+        if (customer == null) {
+            String message = "Dieser Kunde existiert nicht";
+            return Response.status(Response.Status.NOT_FOUND).entity(message).build();
+        }
         try {
             new Customer().updateCustomer(updatedCustomer);
             String message = "Kunde wurde erfolgreich aktualisiert";
             return Response.status(Response.Status.OK).entity(message).build();
-        } catch (RuntimeException e) {
-            if (customer == null) {
-                String message = "Dieser Kunde existiert nicht";
-                return Response.status(Response.Status.NOT_FOUND).entity(message).build();
-            } else {
-                String message = "Es wurde kein gültiges Objekt der Klasse 'Kunde' übermittelt.";
-                return Response.status(Response.Status.BAD_REQUEST).entity(message).build();
-            }
+        } catch (Exception e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
     }
 
@@ -72,12 +70,15 @@ public class CustomerController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteCustomerById(@PathParam("uuid") UUID uuid) {
         try {
-            ICustomer customer = new Customer().getCustomerById(uuid);
-            new Customer().deleteCustomerById(uuid);
+            ICustomer customer = new DAOCustomer().findById(uuid);
+            if (customer == null) {
+                String message = "Customer existiert nicht";
+                return Response.status(Response.Status.NOT_FOUND).entity(message).build();
+            }
+            new DAOCustomer().deleteById(uuid);
             return Response.status(Response.Status.OK).entity(customer).build();
         } catch (RuntimeException e) {
-            String message = "Customer existiert nicht";
-            return Response.status(Response.Status.NOT_FOUND).entity(message).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
     }
 }

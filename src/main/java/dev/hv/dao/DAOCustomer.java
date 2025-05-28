@@ -29,8 +29,9 @@ public class DAOCustomer {
     public ICustomer findById(UUID id) {
         String sql = "SELECT id, first_name, last_name, birth_date, gender FROM customers WHERE id = ?";
         DatabaseConnection databaseConnection = new DatabaseConnection();
-        try (Connection connection = databaseConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
+        try {
+            Connection connection = databaseConnection.getConnection();
+            PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, id.toString());
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -42,10 +43,10 @@ public class DAOCustomer {
                 customer.setGender(ICustomer.Gender.valueOf(rs.getString("gender")));
                 return customer;
             }
+            return null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return null; // Falls kein Kunde gefunden wurde
     }
 
     public ArrayList<Customer> getCustomerList() throws RuntimeException {
@@ -75,7 +76,7 @@ public class DAOCustomer {
         String sql = "UPDATE customers SET first_name = ?, last_name = ?, birth_date = ?, gender = ? WHERE id = ?";
         DatabaseConnection databaseConnection = new DatabaseConnection();
         try (Connection connection = databaseConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
+            PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, customer.getFirstName());
             stmt.setString(2, customer.getLastName());
             stmt.setDate(3, customer.getBirthDate() != null ? Date.valueOf(customer.getBirthDate()) : null);
@@ -87,13 +88,18 @@ public class DAOCustomer {
         }
     }
 
-    public void deleteById(UUID id) {
-        String sql = "UPDATE customers SET first_name = NULL, last_name = NULL, birth_date = NULL, gender = NULL WHERE id = ?";
+    public void deleteById(UUID id) throws RuntimeException {
+        String sqlReading = "UPDATE reading SET customer_id = null WHERE customer_id = ?";
+        String sqlCustomer = "DELETE FROM customer WHERE id = ?";
         DatabaseConnection databaseConnection = new DatabaseConnection();
-        try (Connection connection = databaseConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
+        try {
+            Connection connection = databaseConnection.getConnection();
+            PreparedStatement stmt = connection.prepareStatement(sqlCustomer);
             stmt.setString(1, id.toString());
             stmt.executeUpdate();
+            PreparedStatement stmtReading = connection.prepareStatement(sqlReading);
+            stmtReading.setString(1, id.toString());
+            stmtReading.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

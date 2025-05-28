@@ -41,7 +41,9 @@ public class CSVReader {
                     substitute = true;
                 }
                 String dateStr = values[0].replace("\"", "").trim();
-                result.add(new Reading(values[2], customer, LocalDate.parse(dateStr), kindOfMeter, Double.parseDouble(values[1].replace(", ", ". ")), meterId, substitute));
+                Reading reading = new Reading(null, values[2], "", LocalDate.parse(dateStr), kindOfMeter, Double.parseDouble(values[1].replace(", ", ". ")), meterId, substitute);
+                reading.setCustomer(customer);
+                result.add(reading);
                 line = br.readLine();
             }
 
