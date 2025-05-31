@@ -1,59 +1,84 @@
 package dev.hv.controller;
 
+import dev.hv.dao.DAOCustomer;
 import dev.hv.model.Customer;
 import dev.hv.model.ICustomer;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.UUID;
 
-@Path("customers")
-public class CustomerController
-{
+@Path("/")
+public class CustomerController {
     @POST
-    @Path("customer")
+    @Path("customers")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addCustomer(Customer customer) {
-        customer.createCustomer();
-        System.out.println("Customer erfolgreich erstellt");
+        try {
+            customer.createCustomer();
+        } catch (RuntimeException e) {
+            String message = "Es wurde kein gültiges Objekt der Klasse 'Kunde' übermittelt.";
+            return Response.status(Response.Status.BAD_REQUEST).entity(message).build();
+        }
         String message = "Customer erfolgreich erstellt";
-        return Response.ok(message).build();
+        return Response.status(Response.Status.CREATED).entity(message).build();
     }
 
     @GET
-    @Path("customer/{uuid}")
+    @Path("customers/{uuid}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCustomerById(@PathParam("uuid") UUID uuid) {
-        ICustomer customer = new Customer().getCustomerById(uuid);
-        return Response.status(Response.Status.OK).entity(customer).build();
+        try {
+            ICustomer customer = new Customer().getCustomerById(uuid);
+            return Response.status(Response.Status.OK).entity(customer).build();
+        } catch (RuntimeException e) {
+            String message = "Dieser Kunde existiert nicht";
+            return Response.status(Response.Status.NOT_FOUND).entity(message).build();
+        }
+    }
+
+    @GET
+    @Path("customers")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCustomerList() {
+        ArrayList<Customer> list = new DAOCustomer().getCustomerList();
+        return Response.status(Response.Status.OK).entity(list).build();
     }
 
     @PUT
-    @Path("customer")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Path("customers")
+    @Produces(MediaType.TEXT_PLAIN)
     public Response updateCustomer(Customer updatedCustomer) {
         ICustomer customer = new Customer().getCustomerById(updatedCustomer.getId());
         if (customer == null) {
-            String message = "Customer existiert nicht";
+            String message = "Dieser Kunde existiert nicht";
             return Response.status(Response.Status.NOT_FOUND).entity(message).build();
         }
-        new Customer().updateCustomer(updatedCustomer);
-        return Response.status(Response.Status.OK).entity(updatedCustomer).build();
+        try {
+            new Customer().updateCustomer(updatedCustomer);
+            String message = "Kunde wurde erfolgreich aktualisiert";
+            return Response.status(Response.Status.OK).entity(message).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }
     }
 
     @DELETE
-    @Path("customer/{uuid}")
+    @Path("customers/{uuid}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteCustomerById(@PathParam("uuid") UUID uuid) {
-        ICustomer customer = new Customer().getCustomerById(uuid);
-        if (customer == null) {
-            String message = "Customer existiert nicht";
-            return Response.status(Response.Status.NOT_FOUND).entity(message).build();
+        try {
+            ICustomer customer = new DAOCustomer().findById(uuid);
+            if (customer == null) {
+                String message = "Customer existiert nicht";
+                return Response.status(Response.Status.NOT_FOUND).entity(message).build();
+            }
+            new DAOCustomer().deleteById(uuid);
+            return Response.status(Response.Status.OK).entity(customer).build();
+        } catch (RuntimeException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
-        new Customer().deleteCustomerById(uuid);
-        String message = "Customer wurde gelöscht";
-        return Response.ok(message).build();
     }
 }

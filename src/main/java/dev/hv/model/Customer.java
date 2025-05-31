@@ -1,8 +1,6 @@
 package dev.hv.model;
 
 import dev.hv.dao.DAOCustomer;
-
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -34,7 +32,7 @@ public class Customer implements ICustomer {
     }
 
     @Override
-    public String getFirstName() throws SQLException {
+    public String getFirstName() {
         return firstName;
     }
 
@@ -53,7 +51,7 @@ public class Customer implements ICustomer {
     }
 
     @Override
-    public void setFirstName(String firstName) throws SQLException {
+    public void setFirstName(String firstName){
         this.firstName = firstName;
     }
 
@@ -73,11 +71,11 @@ public class Customer implements ICustomer {
     }
 
     @Override
-    public void setId(UUID id) throws SQLException {
+    public void setId(UUID id) {
         this.id = id;
     }
 
-    public void createCustomer() {
+    public void createCustomer() throws RuntimeException {
         DAOCustomer dao = new DAOCustomer();
         dao.createCustomer(this);
     }
@@ -90,11 +88,6 @@ public class Customer implements ICustomer {
     public void updateCustomer(ICustomer customer) {
         DAOCustomer dao = new DAOCustomer();
         dao.updateCustomer(customer);
-    }
-
-    public void deleteCustomerById(UUID id) {
-        DAOCustomer dao = new DAOCustomer();
-        dao.deleteById(id);
     }
 }
 

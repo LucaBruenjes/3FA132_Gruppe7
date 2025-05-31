@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Hausverwaltung Frontend</title>
+    <title>Hausverwaltung</title>
     <style>
         body { font-family: sans-serif; margin: 20px; }
         input, select, textarea { margin: 5px 0; display: block; width: 100%; }
@@ -13,6 +13,11 @@
 </head>
 <body>
 <h1>Hausverwaltung Frontend</h1>
+
+<section>
+    <h2>Alle Tabellen für Testzwecke löschen</h2>
+    <button onclick="deleteDatabase()">Löschen</button>
+</section>
 
 <section>
     <h2>Kunde erstellen</h2>
@@ -34,6 +39,12 @@
     <input type="text" id="searchCustomerId" placeholder="Kunden-ID (UUID)">
     <button onclick="getCustomer()">Suchen</button>
     <pre id="searchCustomerResult"></pre>
+</section>
+
+<section>
+    <h2>Alle Kunden anzeigen</h2>
+    <button onclick="getCustomers()">Suchen</button>
+    <pre id="searchCustomersResult"></pre>
 </section>
 
 <section>
@@ -77,8 +88,45 @@
     <pre id="createReadingResult"></pre>
 </section>
 
+<section>
+    <h2>Ablesung suchen</h2>
+    <input type="text" id="searchReadingId" placeholder="Reading-ID (UUID)">
+    <button onclick="getReading()">Suchen</button>
+    <pre id="searchReadingResult"></pre>
+</section>
+
+<section>
+    <h2>Ablesung bearbeiten</h2>
+    <input type="text" id="updateReadingId" placeholder="Ablese-ID (UUID)">
+    <input type="text" id="updateReadingCustomerId" placeholder="Kunden-ID (UUID)">
+    <input type="text" id="updateMeterId" placeholder="Zählernummer">
+    <input type="number" id="updateMeterCount" placeholder="Zählerstand (z.B. 12.34)">
+    <input type="date" id="updateReadingDate">
+    <select id="updateKindOfMeter">
+        <option value="HEIZUNG">Heizung</option>
+        <option value="STROM">Strom</option>
+        <option value="WASSER">Wasser</option>
+        <option value="UNBEKANNT">Unbekannt</option>
+    </select>
+    <textarea id="updateComment" placeholder="Kommentar"></textarea>
+    <label><input type="checkbox" id="updateSubstitute"> Ersatzablesung</label>
+    <button onclick="updateReading()">Bearbeiten</button>
+    <pre id="updateReadingResult"></pre>
+</section>
+
+<section>
+    <h2>Ablesung löschen</h2>
+    <input type="text" id="deleteReadingId" placeholder="Reading-ID (UUID)">
+    <button onclick="deleteReading()">Löschen</button>
+    <pre id="deleteReadingResult"></pre>
+</section>
+
 <script>
     const apiBase = 'http://localhost:8080';
+
+     async function deleteDatabase() {
+      const res = await fetch(`${apiBase}/setupDB`, {method: 'DELETE'});
+    }
 
     async function createCustomer() {
       const body = {
@@ -88,7 +136,7 @@
         gender: document.getElementById('gender').value
       };
 
-      const res = await fetch(`${apiBase}/customers/customer`, {
+      const res = await fetch(`${apiBase}/customers`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -100,8 +148,13 @@
     async function getCustomer() {
       const id = document.getElementById('searchCustomerId').value;
 
-      const res = await fetch(`${apiBase}/customers/customer/${id}`);
+      const res = await fetch(`${apiBase}/customers/${id}`);
       document.getElementById('searchCustomerResult').textContent = await res.text();
+    }
+
+    async function getCustomers() {
+      const res = await fetch(`${apiBase}/customers`);
+      document.getElementById('searchCustomersResult').textContent = await res.text();
     }
 
     async function updateCustomer() {
@@ -113,7 +166,7 @@
         gender: document.getElementById('updateGender').value
       };
 
-      const res = await fetch(`${apiBase}/customers/customer`, {
+      const res = await fetch(`${apiBase}/customers`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -125,19 +178,19 @@
     async function deleteCustomer() {
       const id = document.getElementById('deleteCustomerId').value;
 
-      const res = await fetch(`${apiBase}/customers/customer/${id}`, {method:"DELETE"});
+      const res = await fetch(`${apiBase}/customers/${id}`, {method:"DELETE"});
       document.getElementById('deleteCustomerResult').textContent = await res.text();
     }
 
     async function createReading() {
       const body = {
+        customerID: document.getElementById('readingCustomerId').value,
         meterId: document.getElementById('meterId').value,
         meterCount: parseFloat(document.getElementById('meterCount').value),
         dateOfReading: document.getElementById('readingDate').value,
         kindOfMeter: document.getElementById('kindOfMeter').value,
         comment: document.getElementById('comment').value,
-        substitute: document.getElementById('substitute').checked,
-        customerId: document.getElementById('readingCustomerId').value
+        substitute: document.getElementById('substitute').checked
       };
 
       const res = await fetch(`${apiBase}/readings`, {
@@ -147,6 +200,41 @@
       });
 
       document.getElementById('createReadingResult').textContent = await res.text();
+    }
+
+    async function updateReading() {
+      const body = {
+        id: document.getElementById('updateReadingId').value,
+        meterId: document.getElementById('updateMeterId').value,
+        meterCount: parseFloat(document.getElementById('updateMeterCount').value),
+        dateOfReading: document.getElementById('updateReadingDate').value,
+        kindOfMeter: document.getElementById('updateKindOfMeter').value,
+        comment: document.getElementById('updateComment').value,
+        substitute: document.getElementById('updateSubstitute').checked,
+        customerId: document.getElementById('updateReadingCustomerId').value
+      };
+
+      const res = await fetch(`${apiBase}/readings`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+
+      document.getElementById('updateReadingResult').textContent = await res.text();
+    }
+
+    async function getReading() {
+      const id = document.getElementById('searchReadingId').value;
+
+      const res = await fetch(`${apiBase}/readings/${id}`);
+      document.getElementById('searchReadingResult').textContent = await res.text();
+    }
+
+    async function deleteReading() {
+      const id = document.getElementById('deleteReadingId').value;
+
+      const res = await fetch(`${apiBase}/readings/${id}`, {method:"DELETE"});
+      document.getElementById('deleteReadingResult').textContent = await res.text();
     }
 </script>
 </body>

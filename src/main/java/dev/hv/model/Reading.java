@@ -1,13 +1,16 @@
 package dev.hv.model;
-import dev.hv.model.ICustomer;
 
+import dev.hv.dao.DAOCustomer;
+import dev.hv.dao.DAOReading;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public class Reading implements IReading{
+public class Reading implements IReading {
 
+    private UUID id;
     private String comment;
+    private String customerID;
     private ICustomer customer;
     private LocalDate dateOfReading;
     private IReading.KindOfMeter kindOfMeter;
@@ -15,15 +18,18 @@ public class Reading implements IReading{
     private String meterId;
     private boolean substitute;
 
-    public Reading(String comment, ICustomer customer, LocalDate dateOfReading, IReading.KindOfMeter kindOfMeter, double meterCount, String meterId, boolean substitute) {
+    public Reading(UUID id, String comment, String customerID, LocalDate dateOfReading, IReading.KindOfMeter kindOfMeter, double meterCount, String meterId, boolean substitute) {
+        this.id = id;
         this.comment = comment;
-        this.customer = customer;
+        this.customerID = customerID;
         this.dateOfReading = dateOfReading;
         this.kindOfMeter = kindOfMeter;
         this.meterCount = meterCount;
         this.meterId = meterId;
         this.substitute = substitute;
     }
+
+    public Reading() {}
 
     @Override
     public ICustomer getCustomer() {
@@ -39,8 +45,16 @@ public class Reading implements IReading{
     }
 
     @Override
-    public void setCustomer(ICustomer customer) throws SQLException {
+    public void setCustomer(ICustomer customer) {
+        this.customer = customer;
+    }
 
+    public String getCustomerID() {
+        return customerID;
+    }
+
+    public void setCustomerID(String customerID) {
+        this.customerID = customerID;
     }
 
     public LocalDate getDateOfReading() {
@@ -68,7 +82,7 @@ public class Reading implements IReading{
     }
 
     @Override
-    public void setMeterCount(Double meterCount) throws SQLException {
+    public void setMeterCount(Double meterCount) {
 
     }
 
@@ -81,7 +95,7 @@ public class Reading implements IReading{
     }
 
     @Override
-    public void setSubstitute(Boolean substitute) throws SQLException {
+    public void setSubstitute(Boolean substitute) {
 
     }
 
@@ -101,12 +115,22 @@ public class Reading implements IReading{
     }
 
     @Override
-    public UUID getId() throws SQLException {
-        return null;
+    public UUID getId() {
+        return id;
     }
 
     @Override
-    public void setId(UUID id) throws SQLException {
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
+    public IReading getReadingById(UUID id) {
+        DAOReading dao = new DAOReading();
+        return dao.findById(id);
+    }
+
+    public void updateReading(IReading reading) {
+        DAOReading dao = new DAOReading();
+        dao.updateReading(reading);
     }
 }

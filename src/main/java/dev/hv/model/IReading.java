@@ -5,41 +5,45 @@ import java.time.LocalDate;
 
 public interface IReading extends IId {
 
-   enum KindOfMeter {
-      HEIZUNG,
-      STROM,
-      UNBEKANNT,
-      WASSER;
-   }
+    enum KindOfMeter {
+        HEIZUNG,
+        STROM,
+        UNBEKANNT,
+        WASSER;
+    }
 
-   String getComment() throws SQLException;
+    String getComment();
 
-   ICustomer getCustomer() throws SQLException;
+    ICustomer getCustomer();
 
-   LocalDate getDateOfReading() throws SQLException;
+    String getCustomerID();
 
-   KindOfMeter getKindOfMeter() throws SQLException;
+    LocalDate getDateOfReading();
 
-   Double getMeterCount() throws SQLException;
+    KindOfMeter getKindOfMeter();
 
-   String getMeterId() throws SQLException;
+    Double getMeterCount();
 
-   Boolean getSubstitute() throws SQLException;
+    String getMeterId();
 
-   String printDateOfReading();
+    Boolean getSubstitute();
 
-   void setComment(String comment) throws SQLException;
+    String printDateOfReading();
 
-   void setCustomer(ICustomer customer) throws SQLException;
+    void setComment(String comment);
 
-   void setDateOfReading(LocalDate dateOfReading) throws SQLException;
+    void setCustomer(ICustomer customer);
 
-   void setKindOfMeter(KindOfMeter kindOfMeter) throws SQLException;
+    void setCustomerID(String customerID);
 
-   void setMeterCount(Double meterCount) throws SQLException;
+    void setDateOfReading(LocalDate dateOfReading);
 
-   void setMeterId(String meterId) throws SQLException;
+    void setKindOfMeter(KindOfMeter kindOfMeter);
 
-   void setSubstitute(Boolean substitute) throws SQLException;
+    void setMeterCount(Double meterCount);
+
+    void setMeterId(String meterId);
+
+    void setSubstitute(Boolean substitute);
 
 }

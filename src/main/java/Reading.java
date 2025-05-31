@@ -1,4 +1,4 @@
-import dev.hv.model.Customer;
+/*import dev.hv.model.Customer;
 import dev.hv.model.ICustomer;
 import dev.hv.model.IReading;
 
@@ -138,4 +138,4 @@ public class Reading implements IReading {
         stmt.executeQuery("INSERT INTO Reading (id) VALUES (" + readingId + ")");
         readingId = id;
     }
-}
+}*/
